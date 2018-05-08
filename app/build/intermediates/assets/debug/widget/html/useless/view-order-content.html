@@ -1,0 +1,191 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>Hello APP</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../css/ocf.css" />
+    <link rel="stylesheet" type="text/css" href="../css/animate.min.css" />
+    <style>
+        .ocf-card{
+            padding:0.75rem;
+            margin-bottom:0.5rem;
+        }
+        .ocf-card.A{
+            border-left:0.25rem #2196f3 solid; /*创建*/
+        }
+        .ocf-card.B, .ocf-card.D{
+            border-left:0.25rem #f44336 solid; /*审核中 重新审核*/
+        }
+        .ocf-card.C{
+            border-left:0.25rem #4caf50 solid; /*已审核*/
+        }
+        .ocf-card.Z{
+            border-left:0.25rem #9e9e9e solid; /*暂存*/
+        }
+        .ocf-card > div {
+            display:flex;
+            justify-content: space-between;
+        }
+        .ocf-card > p:last-of-type {
+            flex-shrink: 0;
+        }
+        #sal_container{
+            margin:0 0.5rem;
+        }
+        .ocf-bg-hover{
+            background:#e0e0e0 !important;
+        }
+    </style>
+</head>
+<body>
+    <hr class="ocf-app-line">
+    <div id="loading" class="ocf-fixed-full aui-bg-white"></div>
+    <div class="pull-to-refresh-material__control">
+        <svg class="pull-to-refresh-material__icon" fill="#009688" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" />
+            <path d="M0 0h24v24H0z" fill="none" />
+        </svg>
+
+        <svg class="pull-to-refresh-material__spinner" width="24" height="24" viewBox="25 25 50 50">
+            <circle class="pull-to-refresh-material__path" cx="50" cy="50" r="20" fill="none" stroke-width="4" stroke-miterlimit="10" />
+        </svg>
+    </div>
+    <section class="aui-content" style="margin-bottom:0;">
+        <div class="aui-content-padded" style="padding: 1rem;display:flex;justify-content:center;">
+            <div>
+                <h1>共有 <span id="sal_count">0</span> 个订单</h1>
+            </div>
+        </div>
+    </section>
+    <div id="sal_container">
+        <section class="aui-content ocf-panel-shadow ocf-bg-trans ocf-card" style="background:#fff;">
+            <h1>XSDD000002</h1>
+            <div>
+                <p>2018-03-13</p>
+            </div>
+        </section>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/ocf.js"></script>
+<script type="text/javascript" src="../script/pulltorefresh.js"></script>
+<script type="text/javascript" src="../script/pulltorefresh.animated.js"></script>
+<script type="text/javascript">
+    apiready = function(){
+        init();
+    };
+
+    function init(){
+        var cookie = api.getPrefs({sync: true,key: 'cookie'});
+        api.ajax({
+            url:'http://oa.innoev.com:58601/K3Cloud/Kingdee.BOS.WebApi.ServicesStub.DynamicFormService.ExecuteBillQuery.common.kdsvc',
+            method: 'post',
+            returnAll: true,
+            headers:{
+                Cookie: cookie
+            },
+            data:
+            {
+                values:
+                {
+                    format: 1,
+                    useragent: "ApiClient",
+                    rid: "-509867385",
+                    parameters:[{
+                        FormId: "SAL_SaleOrder",
+                        FieldKeys: "FID,FDate,FBillTypeID,FBillNo,FDocumentStatus,FCustId",
+                        OrderString: "FDate DESC"
+                    }],
+                    timestamp:"2018/3/12 23:49:45",
+                    v: "1.0",
+                }
+            }
+        },function(ret,err){
+            //console.log(JSON.stringify(err));
+            if(ret)
+            {
+                //console.log(JSON.stringify(ret.body));
+                var pre_content=JSON.stringify(ret.body);
+                if(pre_content.substr(0, 2)=="[["){
+                    pre_content=pre_content.substr(1, pre_content.length-2);
+                }
+                pre_content=pre_content.replace(/\],\[/g, "\]丨\[").split("丨");
+                var count=0;
+                var Arrayified_Data=[];
+                //console.log(pre_content[0]); [100006,"2018-03-13T00:00:00","eacb50844fc84a10b03d7b841f3a6278","XSDD000002","A",115122]
+                while(pre_content[count]){
+                    Arrayified_Data.push(string2Array(pre_content[count]));
+                    count++;
+                }
+                $api.html($api.byId("sal_container"),'');
+                for (var i=0;i<count;i++)
+                {
+                    //console.log($api.html($api.byId("sal_container")));
+                    pre_content="<section class=\"aui-content ocf-panel-shadow ocf-bg-trans ocf-card "+Arrayified_Data[i][4]+"\" onclick=\"openBill('"+Arrayified_Data[i][0]+"')\" tapmode=\"ocf-bg-hover\">";
+                    var FBillNo=Arrayified_Data[i][3];
+                    if(FBillNo==' ')FBillNo="暂无";
+                    pre_content+="    <h1>"+FBillNo+"</h1>";
+                    pre_content+="    <div>";
+                    pre_content+="        <p class=\"aui-ellipsis-1\">"+Arrayified_Data[i][1].split("T")[0]+"</p>";
+                    var DocumentStatus=Arrayified_Data[i][4];
+                    if(DocumentStatus=="A") DocumentStatus="创建";
+                    else if(DocumentStatus=="B") DocumentStatus="审核中";
+                    else if(DocumentStatus=="C") DocumentStatus="已审核";
+                    else if(DocumentStatus=="D") DocumentStatus="重新审核";
+                    else DocumentStatus="暂存";
+                    pre_content+="        <p>"+DocumentStatus+"</p>";
+                    pre_content+="    </div>";
+                    pre_content+="</section>";
+                    $api.append($api.byId("sal_container"),pre_content);
+                }
+                api.parseTapmode();
+                $api.html($api.byId("sal_count"),count);
+                console.log($api.html($api.byId("sal_container")));
+            }
+            else
+            {
+                api.toast({
+                    msg: '连接数据库失败，请检查网络连接！',
+                    duration: 2000,
+                    location: 'top'
+                });
+            }
+            loaded();
+        });
+    }
+
+    function openBill(FID){
+        api.openWin({
+            name: 'view-order-detail',
+            url: './view-order-detail.html',
+            animation:{
+                type:"movein",
+                subType:"from_right",
+                duration:300
+            },
+            pageParam:{
+                FID:FID
+            }
+        });
+
+    }
+
+    pullToRefresh({
+        container: document.querySelector("body"),
+        animates: ptrAnimatesMaterial,
+        refresh() {
+            loading();
+            init();
+            return new Promise(resolve => {
+                setTimeout(resolve, 500)
+            })
+        }
+    });
+</script>
+
+</html>

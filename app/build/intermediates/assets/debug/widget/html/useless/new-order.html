@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>Hello APP</title>
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../css/ocf.css" />
+    <link rel="stylesheet" type="text/css" href="../css/animate.min.css" />
+    <style type="text/css">
+    </style>
+</head>
+<body>
+    <div id="wrap" class="aui-bg-success">
+        <header class="aui-bar aui-bar-nav" style="background:transparent;" id="header">
+            <a class="aui-pull-left aui-btn" onclick="closewin();">
+                <span class="aui-iconfont icon-arrow-left"></span>
+            </a>
+            <div class="aui-title">新建订单</div>
+            <a class="aui-pull-right aui-btn" onclick="api.execScript({frameName: 'new-order-step'+step,script: 'nextStep();'});">
+                <span class="aui-iconfont icon-account-check" id="nextStepIcon"></span>
+            </a>
+        </header>
+    </div>
+    <hr class="ocf-app-line" id="app_line">
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/ocf.js"></script>
+<script type="text/javascript">
+    var step=1;
+    apiready = function(){
+        var header = $api.byId('wrap');
+        $api.fixStatusBar(header);
+        $api.css($api.byId('app_line'),'top:calc(-3.5rem + '+$api.offset($api.byId('wrap')).h+'px);z-index:0;');
+        //console.log(1);
+        api.openFrame({
+            name: 'new-order-step1',
+            url: './new-order-step1.html',
+            bounces: false,
+            overScrollMode: "scrolls",
+            rect: {
+                x: 0,
+                y: $api.offset($api.byId('wrap')).h,
+                w: 'auto',
+                h: api.winHeight - $api.offset($api.byId('wrap')).h
+            }
+        });
+        api.addEventListener({
+            name: 'keyback'
+        }, function(ret, err) {
+            closewin();
+        });
+    };
+    function openStep2(selectedClient){
+        api.openFrame({
+            name: 'new-order-step2',
+            url: './new-order-step2.html',
+            bounces: false,
+            overScrollMode: "scrolls",
+            rect: {
+                x: 0,
+                y: $api.offset($api.byId('wrap')).h,
+                w: 'auto',
+                h: api.winHeight - $api.offset($api.byId('wrap')).h
+            },
+            pageParam: {
+                FCustId: selectedClient,
+                y: $api.offset($api.byId('wrap')).h,
+                h: api.winHeight - $api.offset($api.byId('wrap')).h
+            },
+            animation: {
+                type:"push",
+                subType:"from_right",
+                duration:300
+            }
+        });
+        api.animation({
+            name: 'new-order-step1',
+            delay: 0,
+            duration: 300,
+            translation: {
+                x: -$api.offset($api.byId('wrap')).w,
+                y: 0,
+                z: 0
+            },
+        }, function(ret, err) {
+            //alert('动画结束');
+        });
+        $api.removeCls($api.byId('nextStepIcon'), 'icon-account-check');
+        $api.addCls($api.byId('nextStepIcon'), 'icon-cart-plus');
+        step=2;
+    }
+    function openStep3(){
+        $api.removeCls($api.byId('nextStepIcon'), 'icon-cart-plus');
+        $api.addCls($api.byId('nextStepIcon'), 'icon-send');
+        step=3;
+    }
+    function closewin(){
+        api.confirm({
+            title: '放弃新建？',
+            msg: '确定要放弃新建订单？所有的编辑信息都不会被保存。',
+            buttons: ['确定', '取消']
+        }, function(ret, err) {
+            var index = ret.buttonIndex;
+            if(index==1) api.closeWin();;
+        });
+    }
+</script>
+</html>

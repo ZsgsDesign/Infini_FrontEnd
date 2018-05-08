@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<lint>
+    <issue id="InlinedApi">
+        <ignore path="src/com/sdk/samples/apicloud/BlockMasking.java" />
+        <ignore path="src/com/sdk/samples/apicloud/WebPageModule.java" />
+    </issue>
+    <issue id="NewApi">
+        <ignore path="src/com/sdk/samples/apicloud/BlockMasking.java" />
+        <ignore path="src/com/sdk/samples/apicloud/UProgress.java" />
+        <ignore path="src/com/sdk/samples/apicloud/WebPageModule.java" />
+    </issue>
+    <issue id="ViewConstructor">
+        <ignore path="src/com/sdk/samples/apicloud/UProgress.java" />
+    </issue>
+</lint>

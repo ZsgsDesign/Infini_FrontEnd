@@ -1,0 +1,153 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>Hello APP</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../css/ocf.css" />
+    <link rel="stylesheet" type="text/css" href="../css/inf.css" />
+    <link rel="stylesheet" type="text/css" href="../css/animate.min.css" />
+    <style type="text/css">
+    .inf-login-bg{
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        z-index: -1;
+        transition: .2s ease-out .0s;
+    }
+    mask{
+        background: rgba(103,58,183,0.125); /* https://material.io/guidelines/ */
+    }
+    .inf-login-bg > img{
+        height:120vh;
+        max-width: none;
+        -webkit-filter: blur(10px);
+        filter: blur(10px);
+    }
+    body{
+        background:transparent;
+    }
+    .infi-login-container{
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        transition: .2s ease-out .0s;
+    }
+    .infi-login-container > div{
+        text-align:center;
+    }
+    h1,p{
+        color:#fff;
+    }
+    p{
+        line-height:2.5;
+    }
+    h1{
+        font-size:1.7rem;
+    }
+    hr{
+        height:1px;
+        background:#fff;
+        width: 5.4rem;
+        margin: 0 auto;
+        transform: scaleY(0.25); /*Draw an Ulter-thin line that 可以和原生的分割线肩并肩（英文太差注释写不下去了）*/
+    }
+    .aui-btn:active {
+        background-color: rgba(255, 255, 255, 0.25);
+    }
+    .inf-login-field{
+        margin-top:1rem;
+        text-align:left;
+    }
+    .inf-input-container {
+        position: relative;
+        margin-top: 1.3rem;
+    }
+    .inf-input-container > input {
+        border-bottom: 1px solid #fff!important;
+        line-height: 2;
+        height: auto;
+        transition: .2s ease-out .0s;
+        color:#fff;
+    }
+    .inf-input-container > inputholder {
+        position: absolute;
+        top: 0;
+        line-height: 1;
+        transform-origin: 0% 100%;
+        text-align: initial;
+        transform: translateY(0.4rem);
+        font-size: 0.8rem;
+        opacity: 0.65;
+        transition: .2s ease-out .0s;
+        pointer-events: none;
+        color:#fff;
+    }
+    .inf-input-container > input:focus{
+        border-bottom:1px solid #e91e63!important;
+    }
+    .inf-input-container > .inf-active{
+        transform: translateY(-0.7rem) scale(0.8);
+        transform-origin: 0 0;
+        opacity:1;
+    }
+    .inf-input-container > .inf-active-color{
+        color: #e91e63;
+    }
+    footer {
+        margin-top: 0.75rem;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+    footer > .inf-btn {
+        margin-right: 0.25rem;
+        background: transparent;
+        color:#fff;
+    }
+    footer > .inf-btn:last-of-type {
+        margin-right: 0;
+    }
+    ::selection {
+        background:rgba(0,0,0,0.25);
+        color:#fff;
+    }
+    </style>
+</head>
+<body>
+    <section id="login_bg" class="ocf-fixed-full inf-login-bg">
+        <img src="../image/background.jpg">
+        <mask class="ocf-absolute-full"></mask>
+    </section>
+    <section class="infi-login-container ocf-fixed-full">
+        <div>
+            <h1>Infini</h1>
+            <hr>
+            <p>Inlove Infini</p>
+            <div class="inf-login-field">
+                <div class="inf-input-container">
+                    <input id="email" type="email" onfocus="$ocf.inputFocus(this);" onblur="$ocf.inputBlur(this);">
+                    <inputholder>邮箱</inputholder>
+                </div>
+                <div class="inf-input-container">
+                    <input id="password" type="password" onfocus="$ocf.inputFocus(this);" onblur="$ocf.inputBlur(this);">
+                    <inputholder>密码</inputholder>
+                </div>
+                <footer>
+                    <div class="aui-btn inf-btn" onclick="openRegister();" tapmode="">注册</div>
+                    <div class="aui-btn inf-btn" onclick="actionLogin();">下一步</div>
+                </footer>
+            </div>
+        </div>
+    </section>
+</body>
+<script type="text/javascript" src="../script/ocf.js"></script>
+<script type="text/javascript" src="../script/jquery.min.js"></script>
+<script type="text/javascript" src="../script/sha1.js"></script>
+<script type="text/javascript" src="../script/md5.js"></script>
+<script type="text/javascript" src="../script/login.js"></script>
+</html>

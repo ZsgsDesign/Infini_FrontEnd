@@ -1,0 +1,230 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>Hello APP</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../css/ocf.css" />
+    <link rel="stylesheet" type="text/css" href="../css/animate.min.css" />
+    <style>
+        section > h1 {
+            padding:0 1rem 1rem;
+        }
+        section > div {
+            padding:0 1rem 1rem;
+        }
+        section > :first-child {
+            padding:1rem;
+        }
+        .ocf-card{
+            display:flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding:0 0.75rem;
+        }
+        .ocf-card i{
+            line-height:4rem;
+            font-size:2.5rem;
+            width:2.5rem;
+            flex-shrink:0;
+            margin-right:0.75rem;
+        }
+        .ocf-card p{
+            font-size:1rem;
+        }
+        .ocf-card p:first-child{
+            margin:0.75rem auto;
+        }
+        .ocf-bg-hover.aui-bg-white{
+            background:#e0e0e0 !important;
+        }
+        input[type="text"].ocf-input{
+            border-bottom:1px solid #000;
+        }
+        .lalala, input[type="text"].ocf-input:focus{
+            border-bottom:1px solid #009688 !important;
+        }
+        .ocf-client-card{
+            display:flex;
+            justify-content: flex-start;
+            align-items:center;
+            padding:0.5rem;
+            background:transparent;
+        }
+        .ocf-client-card img{
+            flex-shrink:0;
+            width:20vw;
+            height:20vw;
+            margin-right:0.5rem;
+        }
+        #client_mask.fadeOut{
+        	pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <hr class="ocf-app-line">
+    <div id="loading" class="ocf-fixed-full aui-bg-white"></div>
+    <section>
+        <h1 class="aui-text-success">选择客户</h1>
+        <div>
+            <input id="filter" type="text" class="ocf-input ocf-trans" placeholder="输入搜索条件" tapmode="lalala">
+        </div>
+        <div style="position:relative;">
+            <div class="ocf-absolute-full aui-bg-default animated" id="client_mask"></div>
+            <div id="client_container">
+                <card class="ocf-client-card ocf-bg-trans" tapmode="aui-bg-white" style="display:none;">
+                    <img src="../image/avatar.jpg">
+                    <div>
+                        <h1 class="aui-ellipsis-1">客户一</h1>
+                        <p class="aui-ellipsis-1">CUST0001</p>
+                    </div>
+                </card>
+            </div>
+        </div>
+    </section>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/ocf.js"></script>
+<script type="text/javascript" src="../script/pulltorefresh.js"></script>
+<script type="text/javascript" src="../script/pulltorefresh.animated.js"></script>
+<script type="text/javascript">
+    var selectedClient=0;
+    apiready = function(){
+        init();
+    };
+
+    function init(){
+        $api.addEvt($api.byId('filter'), 'keypress', function(){
+            if(event.keyCode == 13 && $api.val($api.byId('filter')).trim().length!=0) search($api.val($api.byId('filter')).split(" ")[0]);
+        });
+        loaded();
+    }
+
+    function search(keyword){
+        selectedClient=0;
+        $api.removeCls($api.byId('client_mask'), 'fadeOut');
+        $api.addCls($api.byId('client_mask'), 'fadeIn');
+        //console.log('FName like "%'+keyword+'%" or FNumber like "%'+keyword+'%"');
+        var cookie = api.getPrefs({sync: true,key: 'cookie'});
+        api.ajax({
+            url:'http://oa.innoev.com:58601/K3Cloud/Kingdee.BOS.WebApi.ServicesStub.DynamicFormService.ExecuteBillQuery.common.kdsvc',
+            method: 'post',
+            returnAll: true,
+            headers:{
+                Cookie: cookie
+            },
+            data:
+            {
+                values:
+                {
+                    format: 1,
+                    useragent: "ApiClient",
+                    rid: "-509867385",
+                    parameters:[{
+                        FormId: "BD_Customer",
+                        FieldKeys: "FCustId,FNumber,FName",
+                        OrderString: "FCustId ASC",
+                        FilterString: "FName like N'%"+keyword+"%'"
+                    }],
+                    timestamp:"2018/3/12 23:49:45",
+                    v: "1.0",
+                }
+            }
+        },function(ret,err){
+            //console.log(JSON.stringify(err));
+            if(ret)
+            {
+                //console.log(JSON.stringify(ret.body));
+                var pre_content=JSON.stringify(ret.body);
+                if(pre_content.substr(0, 2)=="[["){
+                    pre_content=pre_content.substr(1, pre_content.length-2);
+                }
+                pre_content=pre_content.replace(/\],\[/g, "\]丨\[").split("丨");
+                var count=0;
+                var Arrayified_Data=[];
+                //console.log(pre_content[0]); [100006,"2018-03-13T00:00:00","eacb50844fc84a10b03d7b841f3a6278","XSDD000002","A",115122]
+                while(pre_content[count]){
+                    Arrayified_Data.push(string2Array(pre_content[count]));
+                    count++;
+                }
+                $api.html($api.byId("client_container"),'');
+                if(pre_content[0]=="[]")count=0;
+                if(count==0){
+                    //输出未找到符合搜索条件的用户
+                    $api.append($api.byId("client_container"),'<h2 style="text-align:center;">未找到符合您搜索条件的结果</h2>');
+                }else{
+                    //循环输出
+                    for (var i=0;i<count;i++)
+                    {
+                        //console.log($api.html($api.byId("sal_container")));
+                        pre_content="";
+                        pre_content+="<card class=\"ocf-client-card ocf-bg-trans\" tapmode=\"aui-bg-white\" id=\""+Arrayified_Data[i][1]+"\" onclick=\"selectClient('"+Arrayified_Data[i][1]+"');\">";
+                        pre_content+="    <img src=\"../image/avatar.jpg\">";
+                        pre_content+="    <div>";
+                        //console.log(1);
+                        pre_content+="        <h1 class=\"aui-ellipsis-1\">"+Arrayified_Data[i][2]+"</h1>";
+                        pre_content+="        <p class=\"aui-ellipsis-1\">"+Arrayified_Data[i][1]+"</p>";
+                        pre_content+="    </div>";
+                        pre_content+="</card>";
+                        //console.log(pre_content);
+                        $api.append($api.byId("client_container"),pre_content);
+                    }
+                }
+                api.parseTapmode();
+                //console.log($api.html($api.byId("client_container")));
+            }
+            else
+            {
+                api.toast({
+                    msg: '连接数据库失败，请检查网络连接！',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+            }
+            loaded();
+            $api.removeCls($api.byId('client_mask'), 'fadeIn');
+            $api.addCls($api.byId('client_mask'), 'fadeOut');
+            //console.log(document.getElementById('client_mask').className);
+        });
+        //console.log(document.getElementById('client_mask').className);
+    }
+
+    function selectClient(FNumber){
+        $api.removeCls($api.byId(selectedClient), 'aui-bg-white');
+        $api.removeCls($api.byId(selectedClient), 'ocf-panel-shadow');
+        selectedClient=FNumber;
+        $api.addCls($api.byId(selectedClient), 'aui-bg-white');
+        $api.addCls($api.byId(selectedClient), 'ocf-panel-shadow');
+    }
+
+    function nextStep(){
+        if(selectedClient==0){
+            api.toast({
+                msg: '尚未指定一个客户！',
+                duration: 2000,
+                location: 'bottom'
+            });
+        }else{
+            api.confirm({
+                title: '确定客户',
+                msg: '即将按照您选择的客户创建订单。',
+                buttons: ['下一步', '取消']
+            }, function(ret, err) {
+                var index = ret.buttonIndex;
+                if(index==1) {
+                    api.execScript({
+                        script: 'openStep2("'+selectedClient+'");'
+                    });
+                }
+            });
+
+        }
+    }
+</script>
+
+</html>

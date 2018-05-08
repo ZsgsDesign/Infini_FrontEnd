@@ -1,0 +1,557 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>Hello APP</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../css/ocf.css" />
+    <link rel="stylesheet" type="text/css" href="../css/animate.min.css" />
+    <style>
+        section > h1 {
+            padding:0 1rem 1rem;
+        }
+        section > div {
+            padding:0 1rem 1rem;
+        }
+        section > :first-child {
+            padding:1rem;
+        }
+        .ocf-card{
+            padding:0.5rem;
+        }
+        .ocf-card > p:first-child{
+            font-size:1rem;
+        }
+        .ocf-bg-hover.aui-bg-white{
+            background:#e0e0e0 !important;
+        }
+        input[type="text"].ocf-input{
+            border-bottom:1px solid #000;
+        }
+        .lalala, input[type="text"].ocf-input:focus{
+            border-bottom:1px solid #009688 !important;
+        }
+        .ocf-client-card{
+            display:flex;
+            justify-content: flex-start;
+            align-items:center;
+            padding:0.5rem;
+            border-radius:2px;
+        }
+        .ocf-client-card img{
+            flex-shrink:0;
+            width:20vw;
+            height:20vw;
+            margin-right:0.5rem;
+        }
+        #product_cart{
+            background:rgba(255,255,255,0.5);
+            border:2px rgba(0,0,0,0.5) dashed;
+        }
+        .ocf-cart-card{
+            padding:0.5rem;
+            margin:0.5rem 0;
+            display:flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .ocf-cart-card:first-of-type{
+            margin-top:0;
+        }
+        .ocf-cart-card:last-of-type{
+            margin-bottom:0;
+        }
+        .ocf-no-shrink{
+            flex-shrink:0;
+            margin-left: 0.5rem;
+        }
+        .ocf-auto-grow{
+            width: 0;
+            flex-grow: 1;
+        }
+        #product_mask.fadeOut{
+            pointer-events: none;
+        }
+        .ocf-auto-grow > p:first-of-type{
+            font-size:1rem;
+        }
+    </style>
+</head>
+<body>
+    <hr class="ocf-app-line">
+    <div id="loading" class="ocf-fixed-full aui-bg-white"></div>
+    <section>
+        <h1 class="aui-text-success">选择物料</h1>
+        <div>
+            <div class="ocf-card" id="product_cart">
+                <p id="empty_notice" style="text-align:center;"><i class="aui-iconfont icon-information"></i> 空空如也</p>
+                <div id="cart_container">
+                    <!--
+                    <card class="ocf-cart-card ocf-panel-shadow" id="cart_0" onclick="editDetail(0,'RC0805FR-07470KL');" style="display:none;" tapmode="aui-bg-default">
+                        <div class="ocf-auto-grow">
+                            <p class="aui-ellipsis-1">RC0805FR-07470KL</p>
+                            <p class="aui-ellipsis-1">通用贴片电阻</p>
+                            <p>470K 1% 0.125W 0805 厚膜 SMD470K 1% 0.125W 0805 厚膜 SMD</p>
+                        </div>
+                        <div class="ocf-no-shrink" tapmode>
+                            <p><span id="amount_0">10</span> Pcs</p>
+                        </div>
+                    </card>
+                    -->
+                </div>
+            </div>
+        </div>
+        <div>
+            <input id="filter" type="text" class="ocf-input" placeholder="输入搜索条件" tapmode="lalala">
+        </div>
+        <div style="position:relative;">
+            <div class="ocf-absolute-full aui-bg-default animated" id="product_mask"></div>
+            <div id="product_container">
+                <card class="ocf-client-card ocf-bg-trans" style="display:none;" tapmode="aui-bg-white" id="1" onclick="selectClient(1);">
+                    <div>
+                        <h1 class="aui-ellipsis-1">客户一</h1>
+                        <p class="aui-ellipsis-1">CUST0001</p>
+                    </div>
+                </card>
+            </div>
+        </div>
+    </section>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/ocf.js"></script>
+<script type="text/javascript" src="../script/pulltorefresh.js"></script>
+<script type="text/javascript" src="../script/pulltorefresh.animated.js"></script>
+<script type="text/javascript">
+    var cart=[];
+    var cart_count=0;
+    var rect_y=null;
+    var rect_h=null;
+    var FCustId=null;
+    apiready = function(){
+        FCustId = api["pageParam"]["FCustId"];
+        rect_y = api["pageParam"]["y"];
+        rect_h = api["pageParam"]["h"];
+        console.log(FCustId);
+        init();
+    };
+
+    function init(){
+        $api.addEvt($api.byId('filter'), 'keypress', function(){
+            if(event.keyCode == 13 && $api.val($api.byId('filter')).trim().length!=0) search($api.val($api.byId('filter')).split(" ")[0]);
+        });
+        loaded();
+    }
+
+    function searchCart(FMATERIALID){
+        for(var i=0;i<cart_count;i++){
+            if(cart[i] && cart[i][0]==FMATERIALID) return i;
+        }
+        return -1;
+    }
+
+    function addCart(FMATERIALID,FName,FSaleUnitId,FSpecification,FNumber){
+        cart_count++;
+        if(cart_count==1)$api.addCls($api.byId('empty_notice'), 'aui-hide');
+        var pre_content="";
+        pre_content+="<card class=\"ocf-cart-card ocf-panel-shadow\" id=\"cart_"+FMATERIALID+"\" onclick=\"editDetail('"+FMATERIALID+"','"+FName+"');\" tapmode=\"aui-bg-default\">";
+        pre_content+="    <div class=\"ocf-auto-grow\">";
+        pre_content+="        <p class=\"aui-ellipsis-1\">"+FName+"</p>";
+        pre_content+="        <p class=\"aui-ellipsis-1\">"+FNumber+"</p>";
+        pre_content+="        <p>"+FSpecification+"</p>";
+        pre_content+="    </div>";
+        pre_content+="    <div class=\"ocf-no-shrink\">";
+        var unit=getUnit(FSaleUnitId);
+        pre_content+="        <p><span id=\"amount_"+FMATERIALID+"\">1</span> "+unit+"</p>";
+        pre_content+="        <p><span id=\"price_"+FMATERIALID+"\">0</span> &yen;</p>";
+        pre_content+="    </div>";
+        pre_content+="</card>";
+        console.log(pre_content);
+        $api.append($api.byId("cart_container"),pre_content);
+        var subArray=[FMATERIALID,1,FName,FSaleUnitId,FSpecification,FNumber,0];
+        cart.push(subArray);
+    }
+
+    function addDetail(FMATERIALID,FName,FSaleUnitId,FSpecification,FNumber){
+        api.actionSheet({
+            title: FName,
+            cancelTitle: '取消',
+            destructiveTitle: '添加到订单列表'
+        }, function(ret, err) {
+            var index = ret.buttonIndex;
+            if(index==1){
+                addCart(FMATERIALID,FName,FSaleUnitId,FSpecification,FNumber);
+            }
+        });
+    }
+
+    function clickResult(FMATERIALID,FName,FSaleUnitId,FSpecification,FNumber){
+        console.log(1);
+        if(searchCart(FMATERIALID)<0){
+            addDetail(FMATERIALID,FName,FSaleUnitId,FSpecification,FNumber);
+
+        }else{
+            editDetail(FMATERIALID,FName);
+        }
+    }
+
+    function search(keyword){
+        console.log(keyword);
+        $api.removeCls($api.byId('product_mask'), 'fadeOut');
+        $api.addCls($api.byId('product_mask'), 'fadeIn');
+        var cookie = api.getPrefs({sync: true,key: 'cookie'});
+        api.ajax({
+            url:'http://oa.innoev.com:58601/K3Cloud/Kingdee.BOS.WebApi.ServicesStub.DynamicFormService.ExecuteBillQuery.common.kdsvc',
+            method: 'post',
+            returnAll: true,
+            headers:{
+                Cookie: cookie
+            },
+            data:
+            {
+                values:
+                {
+                    format: 1,
+                    useragent: "ApiClient",
+                    rid: "-509867385",
+                    parameters:[{
+                        FormId: "BD_MATERIAL",
+                        FieldKeys: "FMATERIALID,FName,FSaleUnitId,FMaterialGroup,FSpecification,FNumber",
+                        OrderString: "FMATERIALID ASC",
+                        FilterString: "FName like N'%"+keyword+"%'"
+                    }],
+                    timestamp:"2018/3/12 23:49:45",
+                    v: "1.0",
+                }
+            }
+        },function(ret,err){
+            //console.log(JSON.stringify(err));
+            if(ret)
+            {
+                console.log(JSON.stringify(ret.body));
+                var pre_content=JSON.stringify(ret.body);
+                if(pre_content.substr(0, 2)=="[["){
+                    pre_content=pre_content.substr(1, pre_content.length-2);
+                }
+                pre_content=pre_content.replace(/\],\[/g, "\]丨\[").split("丨");
+                var count=0;
+                var Arrayified_Data=[];
+                //console.log(pre_content[0]); [100006,"2018-03-13T00:00:00","eacb50844fc84a10b03d7b841f3a6278","XSDD000002","A",115122]
+                while(pre_content[count]){
+                    Arrayified_Data.push(string2Array(pre_content[count]));
+                    count++;
+                }
+                $api.html($api.byId("product_container"),'');
+                if(pre_content[0]=="[]")count=0;
+                if(count==0){
+                    //输出未找到符合搜索条件的用户
+                    $api.append($api.byId("product_container"),'<h2 style="text-align:center;">未找到符合您搜索条件的结果</h2>');
+                }else{
+                    //循环输出
+                    for (var i=0;i<count;i++)
+                    {
+                        //console.log($api.html($api.byId("sal_container")));
+                        pre_content="";
+                        pre_content+="<card class=\"ocf-cart-card ocf-panel-shadow\" id=\"product_"+Arrayified_Data[i][0]+"\" onclick=\"clickResult('"+Arrayified_Data[i][0]+"','"+Arrayified_Data[i][1]+"','"+Arrayified_Data[i][2]+"','"+Arrayified_Data[i][4]+"','"+Arrayified_Data[i][5]+"');\" tapmode=\"aui-bg-default\">";
+                        pre_content+="    <div class=\"ocf-auto-grow\">";
+                        pre_content+="        <p class=\"aui-ellipsis-1\">"+Arrayified_Data[i][1]+"</p>";
+                        pre_content+="        <p class=\"aui-ellipsis-1\">"+Arrayified_Data[i][5]+"</p>";
+                        pre_content+="        <p>"+Arrayified_Data[i][4]+"</p>";
+                        pre_content+="    </div>";
+                        pre_content+="    <div class=\"ocf-no-shrink\">";
+                        var unit=getUnit(Arrayified_Data[i][2]);
+                        //Force unit acquiration to be sync, with loading time slightly increase
+                        //console.log(unit);
+                        pre_content+="        <p>单位："+unit+"</p>";
+                        pre_content+="    </div>";
+                        pre_content+="</card>";
+                        //console.log(pre_content);
+                        $api.append($api.byId("product_container"),pre_content);
+                    }
+                }
+                api.parseTapmode();
+                //console.log($api.html($api.byId("client_container")));
+            }
+            else
+            {
+                api.toast({
+                    msg: '连接数据库失败，请检查网络连接！',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+            }
+            loaded();
+            $api.removeCls($api.byId('product_mask'), 'fadeIn');
+            $api.addCls($api.byId('product_mask'), 'fadeOut');
+            //console.log(document.getElementById('client_mask').className);
+        });
+    }
+
+    function getUnit(FSaleUnitId){
+        var unit=api.getPrefs({sync: true,key: 'unit_'+FSaleUnitId});
+        if(unit) return unit;
+        else {
+            var cookie = api.getPrefs({sync: true,key: 'cookie'});
+            api.ajax({
+                url:'http://oa.innoev.com:58601/K3Cloud/Kingdee.BOS.WebApi.ServicesStub.DynamicFormService.View.common.kdsvc',
+                method: 'post',
+                returnAll: true,
+                headers:{
+                    Cookie: cookie
+                },
+                data:
+                {
+                    values:
+                    {
+                        format: 1,
+                        useragent: "ApiClient",
+                        rid: "-509867385",
+                        parameters:["BD_UNIT",{
+                            Id: FSaleUnitId
+                        }],
+                        timestamp:"2018/3/12 23:49:45",
+                        v: "1.0",
+                    }
+                }
+            },function(ret,err){
+                //console.log(JSON.stringify(err));
+                if(ret)
+                {
+                    console.log(JSON.stringify(ret.body));
+                    var unit=ret.body.Result.Result.Name[0].Value;
+                    if(unit) api.setPrefs({ key: 'unit_'+FSaleUnitId, value: unit });
+                }
+                else
+                {
+                    api.toast({
+                        msg: '连接数据库失败，请检查网络连接！',
+                        duration: 2000,
+                        location: 'top'
+                    });
+                }
+                //loaded();
+            });
+        }
+    }
+
+    function editDetail(FMATERIALID,FName){
+        api.actionSheet({
+            title: FName,
+            cancelTitle: '取消',
+            destructiveTitle: '从订单列表删除',
+            buttons: ['修改订购数量','修改含税单价']
+        }, function(ret, err) {
+            var index = ret.buttonIndex;
+            //console.log(index);
+            if(index==3){
+                changePrice(FMATERIALID,FName);
+            }else if(index==2){
+                changeAmount(FMATERIALID,FName);
+            }else if(index==1){
+                deleteCart(FMATERIALID,FName);
+            }
+        });
+    }
+
+    function deleteCart(FMATERIALID,FName){
+        //confirm first then remove dom and clear storge
+        cart_count--;
+        if(cart_count==0){
+            $api.removeCls($api.byId('empty_notice'), 'aui-hide');
+        }
+        $api.remove($api.byId('cart_'+FMATERIALID));
+        var id=searchCart(FMATERIALID);
+        cart.splice(id,1);
+        console.log(cart);
+    }
+
+    function changeAmount(FMATERIALID,FName){
+        var dialogBox = api.require('dialogBox');
+        dialogBox.amount({
+            texts: {
+                title: '修改'+FName+'购买数量',
+                default: $api.html($api.byId('amount_'+FMATERIALID)),
+                leftBtnTitle: '取消',
+                rightBtnTitle: '确定'
+            },
+            styles: {
+                bg: '#fff',
+                corner: 2,
+                w: 300,
+                h: 195,
+                title: {
+                    marginT: 20,
+                    size: 14,
+                    color: '#000'
+                },
+                input: {
+                    w: 150,
+                    h: 44,
+                    marginT: 15,
+                    size: 14,
+                    color: '#000'
+                },
+                dividingLine: {
+                    marginT: 20,
+                    width: 0.5,
+                    color: '#696969'
+                },
+                left: {
+                    marginL: 10,
+                    w: 135,
+                    h: 55,
+                    bg: '#fff',
+                    color: '#000',
+                    size: 12
+                },
+                right: {
+                    marginR: 10,
+                    w: 135,
+                    h: 55,
+                    bg: '#fff',
+                    color: '#000',
+                    size: 12
+                },
+                left: {
+                    marginL: 10,
+                    w: 135,
+                    h: 55,
+                    bg: '#fff',
+                    color: '#000',
+                    size: 14
+                },
+                right: {
+                    marginR: 10,
+                    w: 135,
+                    h: 55,
+                    bg: '#fff',
+                    color: '#000',
+                    size: 14
+                }
+            },
+            tapClose:true
+        }, function(ret) {
+            if (ret.eventType == 'left') {
+                var dialogBox = api.require('dialogBox');
+                dialogBox.close({
+                    dialogName: 'amount'
+                });
+            }else{
+                var dialogBox = api.require('dialogBox');
+                if(ret.amount>0){
+                    $api.html($api.byId('amount_'+FMATERIALID),ret.amount);
+                    var id=searchCart(FMATERIALID);
+                    cart[id][1]=ret.amount;
+                    console.log(cart);
+                    dialogBox.close({
+                        dialogName: 'amount'
+                    });
+                }else{
+                    dialogBox.close({
+                        dialogName: 'amount'
+                    });
+                    deleteCart(FMATERIALID,FName);
+                }
+            }
+        });
+    }
+
+    function changePrice(FMATERIALID,FName){
+        console.log(1);
+        api.prompt({
+            title:FName,
+            msg:'修改'+FName+'含税价格',
+            text:$api.html($api.byId('price_'+FMATERIALID)),
+            buttons: ['确定', '取消']
+        }, function(ret, err) {
+            var index = ret.buttonIndex;
+            if(index==1){
+                var price= Number(ret.text);
+                if(price>0){
+                    $api.html($api.byId('price_'+FMATERIALID),price);
+                    var id=searchCart(FMATERIALID);
+                    cart[id][6]=price;
+                }else{
+                    api.toast({
+                        msg: '价格不能为零或者负数',
+                        duration: 2000,
+                        location: 'bottom'
+                    });
+                }
+            }
+        });
+    }
+
+    function nextStep(){
+        if(cart_count==0){
+            api.toast({
+                msg: '订购清单空空如也',
+                duration: 2000,
+                location: 'bottom'
+            });
+        }else{
+            for(var i=0;i<cart_count;i++){
+                if(cart[i] && cart[i][6]=="0") {
+                    api.toast({
+                        msg: '尚有商品未设置金额',
+                        duration: 2000,
+                        location: 'bottom'
+                    });
+                    return ;
+                }
+            }
+            api.confirm({
+                title: '确定物料',
+                msg: '即将按照您选择的物料创建订单。',
+                buttons: ['下一步', '取消']
+            }, function(ret, err) {
+                var index = ret.buttonIndex;
+                if(index==1) {
+                    api.execScript({
+                        script: 'openStep3();'
+                    });
+                    api.openFrame({
+                        name: 'new-order-step3',
+                        url: './new-order-step3.html',
+                        bounces: false,
+                        overScrollMode: "scrolls",
+                        rect: {
+                            x: 0,
+                            y: rect_y,
+                            w: 'auto',
+                            h: rect_h
+                        },
+                        pageParam:{
+                            FCustId: FCustId,
+                            cart: cart,
+                            cart_count: cart_count
+                        },
+                        animation: {
+                            type:"push",
+                            subType:"from_right",
+                            duration:300
+                        }
+                    });
+                    api.animation({
+                        name: 'new-order-step2',
+                        delay: 0,
+                        duration: 300,
+                        translation: {
+                            x: -api.winWidth,
+                            y: 0,
+                            z: 0
+                        },
+                    }, function(ret, err) {
+                        //alert('动画结束');
+                    });
+                }
+            });
+
+        }
+    }
+</script>
+
+</html>

@@ -1,0 +1,58 @@
+hr.inf-thin-line{
+    height:1px;
+    background:#757575;
+    width:100%;
+    transform: scaleY(0.25); /*Draw an Ulter-thin line that 可以和原生的分割线肩并肩（英文太差注释写不下去了）*/
+    margin-top:0.75rem;
+}
+/* the following code can fixe the normal way's failure while compacting with flex layout */
+.inf-ellipsis-1 {
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: normal !important;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+.inf-ellipsis-2 {
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: normal !important;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+.inf-ellipsis-3 {
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: normal !important;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+/* infini title layout */
+.aui-bar-nav .aui-title.inf-title-layout{
+    left: 2.8rem;
+    right: 4.6rem;
+    font-size: 1rem;
+    text-align:left;
+}
+.aui-bar-nav .aui-title .inf-title{
+    font-size: 1.2rem;
+    line-height: 1.6rem;
+    margin-top:0.2rem;
+    text-align:left;
+    color:rgba(255,255,255);
+}
+.aui-bar-nav .aui-title .inf-subtitle{
+    font-size: 0.7rem;
+    line-height: 0.7rem;
+    text-align:left;
+    color:rgba(255,255,255,0.5);
+}

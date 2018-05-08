@@ -1,0 +1,213 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>Home</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../css/ocf.css" />
+    <link rel="stylesheet" type="text/css" href="../css/inf.css" />
+    <link rel="stylesheet" type="text/css" href="../css/theme-pink.css" />
+    <link rel="stylesheet" type="text/css" href="../css/animate.min.css" />
+    <style>
+        card{
+            display:block;
+            box-shadow: 0 1px 6px rgba(0,0,0,.117647), 0 1px 4px rgba(0,0,0,.117647);
+            padding:0.75rem;
+        }
+        .aui-radio:checked, .aui-radio.aui-checked, .aui-checkbox:checked, .aui-checkbox.aui-checked {
+            background-color: #e91e63;
+            border: solid 1px #e91e63;
+            text-align: center;
+            background-clip: padding-box;
+        }
+        card > content{
+            padding-top:0.75rem;
+            display: block;
+        }
+        card > footer {
+            margin-top: 0.75rem;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        .inf-block {
+            display:block;
+        }
+        card > footer > .inf-btn {
+            margin-right: 0.25rem;
+            background: transparent;
+        }
+        card > footer > .inf-btn:last-of-type {
+            margin-right: 0;
+            color:#e91e63;
+        }
+        card > header{
+            color: #e91e63;
+            font-size: 1.2rem;
+            font-weight: 400;
+        }
+        card > content > subtitle{
+            font-size: 0.8rem;
+            font-weight: 400;
+            padding-bottom:0.75rem;
+            display:block;
+        }
+        .inf-input-container {
+            position: relative;
+            margin-top: 1.3rem;
+            margin-bottom:1.5rem;
+        }
+        .inf-input-container > input {
+            border-bottom: 1px solid #757575!important;
+            line-height: 2;
+            height: auto;
+            transition: .2s ease-out .0s;
+
+        }
+        .inf-input-container > inputholder {
+            position: absolute;
+            top: 0;
+            line-height: 1;
+            transform-origin: 0% 100%;
+            text-align: initial;
+            transform: translateY(0.4rem);
+            font-size: 0.8rem;
+            opacity: 0.65;
+            transition: .2s ease-out .0s;
+            pointer-events: none;
+        }
+        .inf-input-container > input:focus{
+            border-bottom:1px solid #e91e63!important;
+        }
+        .inf-input-container > .inf-active{
+            transform: translateY(-0.7rem) scale(0.8);
+            transform-origin: 0 0;
+            opacity:1;
+        }
+        .inf-input-container > .inf-active-color{
+            color: #e91e63;
+        }
+        .inf-text-center{
+            text-align:center;
+        }
+        #bind_form > footer > .inf-btn{
+            color:#fff!important;
+        }
+        blockquote{
+            color:#fff;
+        }
+        #qrcode > img{
+            margin:0 auto;
+        }
+        #avatar{
+            width:25vw;
+            height:25vw;
+            border-radius:200px;
+        }
+        .avatar-container{
+            position:relative;
+            padding:0;
+            border-bottom-right-radius: 0px;
+            border-bottom-left-radius: 0px;
+            overflow:hidden;
+        }
+        .avatar-container > .ocf-absolute-full{
+            display:flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .avatar-container > .ocf-absolute-full h2{
+            color:#fff;
+            text-align:center;
+            padding-top:0.4rem;
+        }
+    </style>
+</head>
+<body>
+    <hr class="ocf-app-line">
+    <div id="loading" class="ocf-fixed-full aui-bg-white"></div>
+    <div class="pull-to-refresh-material__control">
+        <svg class="pull-to-refresh-material__icon" fill="#e91e63" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" />
+            <path d="M0 0h24v24H0z" fill="none" />
+        </svg>
+
+        <svg class="pull-to-refresh-material__spinner" width="24" height="24" viewBox="25 25 50 50">
+            <circle class="pull-to-refresh-material__path" cx="50" cy="50" r="20" fill="none" stroke-width="4" stroke-miterlimit="10" />
+        </svg>
+    </div>
+    <section class="aui-content-padded">
+        <card id="update_form" style="display:none;">
+            <header>请更新您的信息</header>
+            <content class="aui-list-item-inner">
+                <subtitle>选择您的性别</subtitle>
+                <label><input class="aui-radio" type="radio" id="g1" name="gender" value="1" checked> 男</label>
+                <label><input class="aui-radio" type="radio" name="gender" value="2"> 女</label>
+            </content>
+            <content>
+                <div class="inf-input-container">
+                    <input id="real_name" type="text" onfocus="$ocf.inputFocus(this);" onblur="$ocf.inputBlur(this);">
+                    <inputholder>您的姓名</inputholder>
+                </div>
+            </content>
+            <footer>
+                <div class="aui-btn inf-btn" onclick="actionUpdateData();">确定</div>
+            </footer>
+        </card>
+        <card id="bind_form" style="display:none;">
+            <header class="inf-text-center">绑定你的另一半</header>
+            <content>
+                <div id="qrcode"></div>
+            </content>
+            <content>
+                <h1 class="inf-text-center" id="real_name_span"></h1>
+                <p class="inf-text-center">我的Infini码</p>
+                <p class="inf-text-center">此码将于<span id="time"></span>失效</p>
+            </content>
+            <content>
+                <p class="inf-text-center">右上方扫描<span id="ta"></span>的二维码</p>
+            </content>
+            <hr class="inf-thin-line">
+            <footer class="inf-block">
+                <p class="inf-text-center" onclick="dogeButton();"><small><i class="aui-iconfont icon-heart"></i> 还没有<span id="sex"></span>朋友？点击这里</small></p>
+            </footer>
+        </card>
+        <section id="binded" style="display:none;">
+            <card class="avatar-container">
+                <img src="../image/background.jpg" class="ocf-blur" style="transform:scale(1.2);">
+                <div class="ocf-absolute-full">
+                    <div>
+                        <img id="avatar" class="ocf-panel-shadow" src="">
+                        <h2 id="binded_real_name"></h2>
+                    </div>
+                </div>
+            </card>
+            <card style="border-top-right-radius: 0px;border-top-left-radius: 0px;">
+                <header class="inf-text-center">已绑定</header>
+                <content>
+                    <blockquote>
+                        <p id="binded_comment"></p>
+                        <p id="binded_comment_author" style="text-align:right;"></p>
+                    </blockquote>
+                </content>
+                <footer style="display:block;">
+                    <p class="inf-text-center" onclick="unbind();">解除绑定是不可能的，这辈子都不可能的</p>
+                </footer>
+            </card>
+        </section>
+    </section>
+</body>
+<script type="text/javascript" src="../script/ocf.js"></script>
+<script type="text/javascript" src="../script/jquery.min.js"></script>
+<script type="text/javascript" src="../script/pulltorefresh.js"></script>
+<script type="text/javascript" src="../script/pulltorefresh.animated.js"></script>
+<script type="text/javascript" src="../script/sha1.js"></script>
+<script type="text/javascript" src="../script/md5.js"></script>
+<script type="text/javascript" src="../script/qrcode.min.js"></script>
+<script type="text/javascript" src="../script/home.js"></script>
+
+</html>

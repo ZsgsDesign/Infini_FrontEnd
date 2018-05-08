@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>Hello APP</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../css/ocf.css" />
+    <link rel="stylesheet" type="text/css" href="../css/theme-success.css" />
+    <link rel="stylesheet" type="text/css" href="../css/animate.min.css" />
+    <style type="text/css">
+    section{
+        padding:1rem;
+    }
+    section > :not(:first-child){
+        padding-top:1rem;
+    }
+    section:not(:first-of-type){
+        padding-top:0;
+    }
+    card {
+        padding:0.75rem;
+        box-shadow: 0 1px 6px rgba(0,0,0,.117647), 0 1px 4px rgba(0,0,0,.117647);
+        display:block;
+    }
+    input{
+        border-bottom:1px solid #757575!important;
+        transition: .3s ease-out .0s;
+    }
+    input:focus{
+        border-bottom:1px solid #009688!important;
+    }
+    </style>
+</head>
+<body>
+    <hr class="ocf-app-line">
+    <div id="loading" class="ocf-fixed-full aui-bg-white"></div>
+    <section>
+        <h1><i class="aui-iconfont icon-receipt"></i> 开票</h1>
+        <div>
+            <card>
+                <p><i class="aui-iconfont icon-marker-check"></i> 开票单位</p>
+                <input type="text" placeholder="其它单位在此填写">
+                <p style="margin-top:0.75rem;"><i class="aui-iconfont icon-map-marker-plus"></i> 其它地址</p>
+                <input type="text" placeholder="其它地址在此填写">
+            </card>
+        </div>
+    </section>
+    <section>
+        <h1><i class="aui-iconfont icon-more"></i> 其它</h1>
+        <div>
+            <card>
+                <p><i class="aui-iconfont icon-comment-processing"></i> 备注</p>
+                <div id="address" style="margin-top:0.75rem;" contenteditable>无</div>
+            </card>
+        </div>
+    </section>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/aui-tab.js"></script>
+<script type="text/javascript" src="../script/ocf.js"></script>
+<script type="text/javascript">
+    apiready = function(){
+        init();
+    };
+
+    function init(){
+        loaded();
+    }
+
+    function closewin(){
+        api.closeWin();
+    }
+</script>
+</html>

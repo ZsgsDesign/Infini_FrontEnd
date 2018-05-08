@@ -1,0 +1,88 @@
+<!doctype html>
+<html class="aui-bg-pink">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>Launcher</title>
+    <link rel="stylesheet" type="text/css" href="./css/api.css" />
+    <link rel="stylesheet" type="text/css" href="./css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="./css/ocf.css" />
+    <style>
+    woc{
+        position:fixed;
+        top:0;
+        bottom:0;
+        left:0;
+        right:0;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        color:#fff;
+    }
+    ma:before{
+        content:"这里什么也没有";
+    }
+    ma > a:before{
+        content:"！";
+        color: #fff;
+    }
+    ma > a:after{
+        /*I call it an easter egg*/
+        display:easter-egg;
+        /* But it really doesn't matter cause it just has no meaning */
+    }
+    </style>
+</head>
+
+<body class="aui-bg-pink">
+    <div id="wrap">
+        <woc>
+            <ni>
+                <men>
+                    <kan>
+                        <wo>
+                            <gan>
+                                <ma>
+                                    <a>
+    </div>
+    <!-- http://google-styleguide.googlecode.com/svn/trunk/htmlcssguide.xml?showone=Optional_Tags#Optional_Tags -->
+</body>
+<script type="text/javascript" src="./script/ocf.js"></script>
+<script type="text/javascript" src="./script/aui-tab.js"></script>
+<script type="text/javascript">
+apiready = function(){
+    var header = $ocf.byId('wrap');
+    $ocf.fixStatusBar(header);
+    var uid=api.getPrefs({sync: true,key: 'uid'});
+    console.log(uid);
+    if(uid){
+        api.openDrawerLayout({
+            name: 'main',
+            url: './html/main.html',
+            slidBackEnabled:false,
+            overScrollMode:"scrolls",
+            animation: {
+                type: 'none'
+            },
+            leftPane: {
+                edge: 90,
+                name: 'leftPane',
+                url: './html/leftPane.html'
+            }
+        });
+    }else{
+        //console.log(2);
+        api.openWin({
+            name: 'login',
+            url: './html/login.html',
+            animation:{
+                type:"movein",
+                subType:"from_bottom",
+                duration:300
+            }
+        });
+    }
+};
+</script>
+</html>

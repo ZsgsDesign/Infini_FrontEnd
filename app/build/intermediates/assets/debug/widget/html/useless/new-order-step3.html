@@ -1,0 +1,302 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>Hello APP</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../css/ocf.css" />
+    <link rel="stylesheet" type="text/css" href="../css/animate.min.css" />
+    <style>
+    .aui-list .aui-list-item, .aui-list {
+        border:none;
+        background:transparent !important;
+    }
+    .aui-input,
+    input[type="text"],
+    input[type="password"],
+    input[type="search"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="url"],
+    input[type="number"]{
+        border-bottom: 1px solid #000;
+    }
+    .aui-input:focus,
+    input[type="text"]:focus,
+    input[type="password"]:focus,
+    input[type="search"]:focus,
+    input[type="email"]:focus,
+    input[type="tel"]:focus,
+    input[type="url"]:focus,
+    input[type="number"]:focus{
+        border-bottom: 1px solid #009688;
+    }
+    textarea {
+        border: 1px solid #000;
+    }
+    textarea:focus {
+        border: 1px solid #009688;
+    }
+    </style>
+</head>
+<body>
+    <hr class="ocf-app-line">
+    <div id="loading" class="ocf-fixed-full aui-bg-white"></div>
+    <div class="aui-content aui-margin-t-15">
+        <ul class="aui-list aui-form-list">
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label">
+                        Text
+                    </div>
+                    <div class="aui-list-item-input">
+                        <input type="text" placeholder="Name">
+                    </div>
+                </div>
+            </li>
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label">
+                        Password
+                    </div>
+                    <div class="aui-list-item-input">
+                        <input type="password" placeholder="Password">
+                    </div>
+                </div>
+            </li>
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label">
+                        Number
+                    </div>
+                    <div class="aui-list-item-input">
+                        <input type="number" placeholder="Number">
+                    </div>
+                </div>
+            </li>
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label">
+                        Radio
+                    </div>
+                    <div class="aui-list-item-input">
+                        <label><input class="aui-radio" type="radio" name="demo1" checked> 选项一</label>
+                        <label><input class="aui-radio" type="radio" name="demo1"> 选项二</label>
+                    </div>
+                </div>
+            </li>
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label">
+                        Select
+                    </div>
+                    <div class="aui-list-item-input">
+                        <select>
+                            <option>Option1</option>
+                            <option>Option2</option>
+                            <option>Option3</option>
+                        </select>
+                    </div>
+                </div>
+            </li>
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label">
+                        Switch
+                    </div>
+                    <div class="aui-list-item-input">
+                        <input type="checkbox" class="aui-switch" checked>
+                    </div>
+                </div>
+            </li>
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label">
+                        Range
+                    </div>
+                    <div class="aui-list-item-input">
+                        <div class="aui-range">
+                            <input type="range" class="aui-range" value="30" max="100" min="1" step="1" id="range" />
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label">
+                        Textarea
+                    </div>
+                    <div class="aui-list-item-input">
+                        <textarea placeholder="Textarea"></textarea>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/ocf.js"></script>
+<script type="text/javascript" src="../script/pulltorefresh.js"></script>
+<script type="text/javascript" src="../script/pulltorefresh.animated.js"></script>
+<script type="text/javascript">
+    apiready = function(){
+        var cart = api["pageParam"]["cart"];
+        console.log(cart);
+        console.log(api["pageParam"]["FCustId"]);
+        init();
+    };
+
+    function init(){
+        loaded();
+    }
+
+    function nextStep(){
+        //Check first
+        var cookie = api.getPrefs({sync: true,key: 'cookie'});
+        var date=new Date;
+        var year=date.getFullYear();
+        var month=date.getMonth()+1;
+        var day=date.getDate();
+        month =(month<10 ? "0"+month:month);
+        day =(day<10 ? "0"+day:day);
+        var dateString = (year+"-"+month+"-"+day);
+        api.ajax({
+            url:'http://oa.innoev.com:58601/K3Cloud/Kingdee.BOS.WebApi.ServicesStub.DynamicFormService.Save.common.kdsvc',
+            //url:'https://www.mundb.xyz/api/test',
+            method: 'post',
+            returnAll: true,
+            headers:{
+                Cookie: cookie
+            },
+            data:
+            {
+                values:
+                {
+                    format: 1,
+                    useragent: "ApiClient",
+                    rid: "-509867385",
+                    parameters:["SAL_SaleOrder",{
+                        Creadtor:"",
+                        NeedUpDateFields:[],
+                        Model: {
+                            FBillTypeID: {
+                    			FNumber: "XSDD01_SYS"
+                    		},
+                            FDate: dateString,
+                            FSaleOrgId: {
+                    			FNumber: "100"
+                    		},
+                    		FCustId: {
+                    			FNumber: api["pageParam"]["FCustId"]
+                    		},
+                    		FReceiveId: {
+                    			FNumber: api["pageParam"]["FCustId"]
+                    		},
+                            FSettleId: {
+                                FNumber: api["pageParam"]["FCustId"]
+                            },
+                            FSaleDeptId: {
+                    			FNumber: "BM000001"
+                    		},
+                            FSalerId: {
+                    			FNumber: "IEV-0001"
+                    		},
+                            FSaleOrderFinance:{
+                                FExchangeRate: 1,
+                                FSettleCurrId: {
+                                    FNumber: "PRE001"
+                                },
+                                FLOCALCURRID: {
+                                    FNumber: "PRE001"
+                                },
+                                FIsIncludedTax:"true",
+                                FIsPriceExcludeTax:"true",
+                                FExchangeTypeId: {
+                    				FNumber: "HLTX01_SYS"
+                    			},
+                            },
+                            FSaleOrderEntry: [{
+                                FRowType: "Standard",
+                                FMaterialId: {
+                                    FNumber: "101470KA2"
+                                },
+                                FUnitID: {
+                                    FNumber: "Pcs"
+                                },
+                                FQty: "22",
+                                FOldQty: "22",
+                                FTaxPrice: "100",
+                                FIsFree: "false",
+                                FEntryTaxRate: "17",
+                                FDeliveryDate: "2018-03-25T00:00:00",
+                                FStockOrgId: {
+                                    FNumber: "100"
+                                },
+                                FSettleOrgIds: {
+                                    FNumber: "100"
+                                },
+                                FSupplyOrgId: {
+                                    FNumber: "100"
+                                },
+                                FOwnerTypeId: "BD_OwnerOrg",
+                                FOwnerId: {
+                                    FNumber: "100"
+                                },
+                                FEntryNote: "备注在这里",
+                                FReserveType: "1",
+                                FPriceBaseQty: "22",
+                                FStockUnitID: {
+                                    FNumber: "Pcs"
+                                },
+                                FStockQty: "22",
+                                FStockBaseQty: "34",
+                                FOUTLMTUNIT: "SAL",
+                                FOutLmtUnitID: {
+                                    FNumber: "Pcs"
+                                },
+                                FOrderEntryPlan: [{
+                                    FPlanQty: "22"
+                                }],
+                            }]
+                            //FReserveType:, //预留类型
+                            //FDeliveryDate:,//要货日期
+                            //FOUTLMTUNIT:,//超发控制单位类型
+                            //FCarryBillNo:,//物流单号
+                            //FSettleCurrId:,//结算币别
+                            //FBillTypeID:,//单据类型
+                            //FSalerId:,//销售员
+                            //FCustId:,//客户
+                            //FDate:,//日期
+                            //FSaleOrgId:,//销售组织
+                            //FSettleOrgIds:,//结算组织
+                            //FUnitID:,//销售单位
+                            //FMaterialId:,//物料编码
+                        }
+                    }],
+                    timestamp:"2018/3/12 23:49:45",
+                    v: "1.0",
+                }
+            }
+        },function(ret,err){
+            if(ret)
+            {
+                console.log(JSON.stringify(ret.body));
+            }
+            else
+            {
+                //console.log(JSON.stringify(err));
+                console.log(JSON.stringify(err.body));
+                api.toast({
+                    msg: '连接数据库失败，请检查网络连接！',
+                    duration: 2000,
+                    location: 'top'
+                });
+            }
+        });
+    }
+</script>
+
+</html>

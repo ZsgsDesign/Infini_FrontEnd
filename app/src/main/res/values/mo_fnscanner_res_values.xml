@@ -1,0 +1,10 @@
+<resources>
+  <item type="id" name="fn_auto_focus"/>
+  <item type="id" name="fn_decode"/>
+  <item type="id" name="fn_decode_failed"/>
+  <item type="id" name="fn_decode_succeeded"/>
+  <item type="id" name="fn_launch_product_query"/>
+  <item type="id" name="fn_quit"/>
+  <item type="id" name="fn_restart_preview"/>
+  <item type="id" name="fn_return_scan_result"/>
+</resources>

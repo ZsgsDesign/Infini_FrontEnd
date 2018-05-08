@@ -1,0 +1,111 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>Hello APP</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../css/ocf.css" />
+    <link rel="stylesheet" type="text/css" href="../css/theme-success.css" />
+    <link rel="stylesheet" type="text/css" href="../css/animate.min.css" />
+    <style>
+        .inf-header{
+            display:flex;
+            height:61.8vw;
+            position: relative;
+        }
+        .inf-header > .ocf-absolute-full{
+            /*background:rgba(0,0,0,0.25);*/
+        }
+        .inf-header > .inf-bg{
+            position: absolute;
+            top:0;
+            right:0;
+            bottom:0;
+            left:0;
+            min-width:100%;
+            height:61.8vw;
+        }
+        .inf-avatar{
+            border-radius:200px;
+            width:20vw;
+            height:20vw;
+            margin-bottom:5vw;
+        }
+        .inf-header > div{
+            z-index:1;
+            position: absolute;
+            bottom:0;
+            left:0;
+            right:0;
+            padding:5vw;
+        }
+        li > p{
+            margin:1rem;
+            font-size:0.85rem;
+            color:#000;
+        }
+        li i{
+            margin-right:1.5rem;
+            color: #757575;
+            display: inline-block; /* For the style 'transform' to work */
+            transform:scale(1.33);
+        }
+        hr{
+            height:1px;
+            background:#757575;
+            width:100%;
+            transform: scaleY(0.25); /*Draw an Ulter-thin line that 可以和原生的分割线肩并肩（英文太差注释写不下去了）*/
+        }
+        small{
+            /* display fine print according to HTML5(W3C), please do not misunderstand it as the opposite to big */
+            margin: 1rem 1rem 0;
+            color: #757575;
+        }
+    </style>
+</head>
+<body>
+    <hr class="ocf-app-line">
+    <div id="loading" class="ocf-fixed-full aui-bg-white"></div>
+    <section class="aui-content">
+        <div class="inf-header">
+            <img class="inf-bg" src="../image/bg.png">
+            <div class="ocf-absolute-full"></div>
+            <div>
+                <img class="inf-avatar" src="../image/avatar.jpg">
+                <h2 class="aui-text-white">张佑杰</h2>
+            </div>
+        </div>
+        <ul>
+            <li><p><i class="aui-iconfont icon-home"></i>主页</p></li>
+            <li><p><i class="aui-iconfont icon-book-multiple"></i>日记</p></li>
+            <li><p><i class="aui-iconfont icon-clock"></i>倒数日</p></li>
+            <hr>
+            <li><small>小功能</small></li>
+            <li><p><i class="aui-iconfont icon-format-paint"></i>画板</p></li>
+            <li><p><i class="aui-iconfont icon-map-marker-multiple"></i>距离</p></li>
+            <li><p><i class="aui-iconfont icon-comment-text"></i>翻译</p></li>
+            <hr>
+            <li><small>关于</small></li>
+            <li><p><i class="aui-iconfont icon-settings"></i>设置</p></li>
+            <li><p><i class="aui-iconfont icon-information-outline"></i>关于</p></li>
+        </ul>
+    </section>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/ocf.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        init();
+    };
+
+    function init(){
+        setTimeout(loaded,3000); //首次加载的问题，可以通过延长splash的时候偷偷缓存解决，解决以后将不设置此处
+        //但是会对后续加载造成问题
+    }
+</script>
+
+</html>

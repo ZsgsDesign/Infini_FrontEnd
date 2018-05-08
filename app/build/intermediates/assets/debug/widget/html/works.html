@@ -1,0 +1,209 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>Hello APP</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../css/ocf.css" />
+    <link rel="stylesheet" type="text/css" href="../css/theme-success.css" />
+    <link rel="stylesheet" type="text/css" href="../css/animate.min.css" />
+    <style>
+        section > h1 {
+            padding:0 1rem 1rem;
+        }
+        section > div {
+            padding:0 1rem 1rem;
+        }
+        section > :first-child {
+            padding:1rem;
+        }
+        .ocf-card{
+            text-align:center;
+            background:transparent;
+        }
+        .ocf-card i{
+            margin:0 auto;
+            line-height:4rem;
+            font-size:2rem;
+            width:2.5rem;
+            flex-shrink:0;
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            color: #fff;
+        }
+        .ocf-card p:first-child{
+            margin:0.75rem auto;
+        }
+        .ocf-bg-hover.aui-bg-white{
+            background:#e0e0e0 !important;
+        }
+        .erp-statistics > div{
+            text-align:center;
+        }
+        .erp-statistics > div > h1{
+            font-size:8vw;
+        }
+        .erp-statistics > div > p{
+            font-size:4vw;
+        }
+        .erp-bg-dark{
+            background-color:#000!important;
+        }
+        section{
+            margin-bottom:0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <hr class="ocf-app-line">
+    <div id="loading" class="ocf-fixed-full aui-bg-white"></div>
+    <div class="pull-to-refresh-material__control">
+        <svg class="pull-to-refresh-material__icon" fill="#009688" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" />
+            <path d="M0 0h24v24H0z" fill="none" />
+        </svg>
+
+        <svg class="pull-to-refresh-material__spinner" width="24" height="24" viewBox="25 25 50 50">
+            <circle class="pull-to-refresh-material__path" cx="50" cy="50" r="20" fill="none" stroke-width="4" stroke-miterlimit="10" />
+        </svg>
+    </div>
+    <section class="aui-content">
+        <div class="aui-row erp-statistics">
+            <div class="aui-col-xs-3">
+                <h1>1000</h1>
+                <p>应收额</p>
+            </div>
+            <div class="aui-col-xs-3">
+                <h1>85%</h1>
+                <p>回报率</p>
+            </div>
+            <div class="aui-col-xs-3">
+                <h1>96%</h1>
+                <p>开票率</p>
+            </div>
+            <div class="aui-col-xs-3">
+                <h1>18</h1>
+                <p>拜访量</p>
+            </div>
+        </div>
+    </section>
+    <section class="aui-content ocf-panel-shadow aui-bg-white">
+        <h1>常用应用</h1>
+        <div class="aui-row erp-modules">
+            <div class="aui-col-xs-4">
+                <div class="ocf-card">
+                    <i class="aui-iconfont icon-package-up aui-bg-success"></i>
+                    <p>要出库</p>
+                </div>
+            </div>
+            <div class="aui-col-xs-4">
+                <div class="ocf-card">
+                    <i class="aui-iconfont icon-ticket-confirmation aui-bg-info"></i>
+                    <p>要开票</p>
+                </div>
+            </div>
+            <div class="aui-col-xs-4">
+                <div class="ocf-card">
+                    <i class="aui-iconfont icon-briefcase-check aui-bg-danger"></i>
+                    <p>要核销</p>
+                </div>
+            </div>
+            <div class="aui-col-xs-4">
+                <div class="ocf-card">
+                    <i class="aui-iconfont icon-newspaper aui-bg-warning"></i>
+                    <p>要日报</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="aui-content ocf-panel-shadow aui-bg-white">
+        <h1>查询</h1>
+        <div class="aui-row erp-modules">
+            <div class="aui-col-xs-4">
+                <div class="ocf-card">
+                    <i class="aui-iconfont icon-file aui-bg-success"></i>
+                    <p>订单</p>
+                </div>
+            </div>
+            <div class="aui-col-xs-4">
+                <div class="ocf-card">
+                    <i class="aui-iconfont icon-file-send aui-bg-info"></i>
+                    <p>出库单</p>
+                </div>
+            </div>
+            <div class="aui-col-xs-4">
+                <div class="ocf-card">
+                    <i class="aui-iconfont icon-receipt aui-bg-danger"></i>
+                    <p>发票</p>
+                </div>
+            </div>
+            <div class="aui-col-xs-4">
+                <div class="ocf-card">
+                    <i class="aui-iconfont icon-file-import aui-bg-purple"></i>
+                    <p>收款单</p>
+                </div>
+            </div>
+            <div class="aui-col-xs-4">
+                <div class="ocf-card">
+                    <i class="aui-iconfont icon-playlist-check aui-bg-pink"></i>
+                    <p>预开票</p>
+                </div>
+            </div>
+            <div class="aui-col-xs-4">
+                <div class="ocf-card">
+                    <i class="aui-iconfont icon-calendar-multiple-check aui-bg-warning"></i>
+                    <p>任务</p>
+                </div>
+            </div>
+            <div class="aui-col-xs-4">
+                <div class="ocf-card">
+                    <i class="aui-iconfont icon-newspaper aui-bg-primary"></i>
+                    <p>日报</p>
+                </div>
+            </div>
+            <div class="aui-col-xs-4">
+                <div class="ocf-card">
+                    <i class="aui-iconfont icon-hexagon aui-bg-indigo"></i>
+                    <p>库存</p>
+                </div>
+            </div>
+            <div class="aui-col-xs-4">
+                <div class="ocf-card">
+                    <i class="aui-iconfont icon-dots-horizontal erp-bg-dark"></i>
+                    <p>更多</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/ocf.js"></script>
+<script type="text/javascript" src="../script/pulltorefresh.js"></script>
+<script type="text/javascript" src="../script/pulltorefresh.animated.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        init();
+    };
+
+    function init(){
+        loaded();
+    }
+
+    pullToRefresh({
+        container: document.querySelector("body"),
+        animates: ptrAnimatesMaterial,
+        refresh() {
+            loading();
+            init();
+            return new Promise(resolve => {
+                setTimeout(resolve, 500)
+            })
+        }
+    });
+</script>
+
+</html>

@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>Hello APP</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../css/ocf.css" />
+    <link rel="stylesheet" type="text/css" href="../css/inf.css" />
+    <link rel="stylesheet" type="text/css" href="../css/theme-success.css" />
+    <link rel="stylesheet" type="text/css" href="../css/animate.min.css" />
+    <style type="text/css">
+    .avatar{
+        border-radius:200px;
+        height:calc(25vw - 1.125rem);
+        width:calc(25vw - 1.125rem);
+        display:inline-block;
+    }
+    h1 {
+        font-size: 2.4rem;
+    }
+    small{
+        font-size:33%!important;
+        color:inherit!important;
+    }
+    .aui-tab-item.aui-active {
+        color: #fff;
+        border-bottom: transparent;
+    }
+    .aui-tab-item{
+        color:rgba(255,255,255,0.65);
+        transition: .2s ease-out .0s;
+    }
+    tab.aui-tab{
+        position: relative;
+        background:transparent;
+    }
+    tab:after{
+        position: absolute;
+        bottom:0;
+        width:33.3vw;
+        height:2px;
+        background:#fff;
+        left:0;
+        z-index:2;
+        transition: .2s ease-out .0s;
+        content:"";
+    }
+    </style>
+</head>
+<body>
+    <div id="wrap" class="aui-bg-pink">
+        <header class="aui-bar aui-bar-nav" style="background:transparent;" id="header">
+            <a class="aui-pull-left aui-btn" onclick="api.openDrawerPane({type: 'left'});">
+                <span class="aui-iconfont icon-menu"></span>
+            </a>
+            <div class="aui-title">Infini</div>
+            <a class="aui-pull-right aui-btn" onclick="scan();" tapmode>
+                <span class="aui-iconfont icon-barcode-scan"></span>
+            </a>
+        </header>
+        <tab class="aui-tab" id="tab">
+            <div class="aui-tab-item aui-active">主页</div>
+            <div class="aui-tab-item">日记</div>
+            <div class="aui-tab-item">倒数日</div>
+            <style>tab:after{left:0;}</style>
+        </tab>
+    </div>
+</body>
+<script type="text/javascript" src="../script/aui-tab.js"></script>
+<script type="text/javascript" src="../script/ocf.js"></script>
+<script type="text/javascript" src="../script/jquery.min.js"></script>
+<script type="text/javascript" src="../script/sha1.js"></script>
+<script type="text/javascript" src="../script/md5.js"></script>
+<script type="text/javascript" src="../script/main.js"></script>
+</html>

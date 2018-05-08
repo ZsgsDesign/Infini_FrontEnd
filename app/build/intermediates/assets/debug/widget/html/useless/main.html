@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html class="ocf-bg-teal">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>Hello APP</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../css/ocf.css" />
+    <link rel="stylesheet" type="text/css" href="../css/animate.min.css" />
+    <style>
+        section > h1 {
+            padding:0 1rem 1rem;
+        }
+        section > div {
+            padding:0 1rem 1rem;
+        }
+        section > :first-child {
+            padding:1rem;
+        }
+        .ocf-card{
+            display:flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding:0 0.75rem;
+        }
+        .ocf-card i{
+            line-height:4rem;
+            font-size:2.5rem;
+            width:2.5rem;
+            flex-shrink:0;
+            margin-right:0.75rem;
+        }
+        .ocf-card p{
+            font-size:1rem;
+        }
+        .ocf-card p:first-child{
+            margin:0.75rem auto;
+        }
+        .ocf-bg-hover.aui-bg-white{
+            background:#e0e0e0 !important;
+        }
+    </style>
+</head>
+<body class="ocf-bg-teal">
+    <section class="aui-content">
+        <h1 class="aui-text-white"><i class="aui-iconfont icon-database"></i> 数据中心：<span id="dataCenter">未连接</span></h1>
+        <div>
+            <card class="ocf-panel-shadow ocf-card aui-bg-white ocf-bg-trans" tapmode="ocf-bg-hover" onclick="newOrder();">
+                <i class="aui-iconfont icon-library-plus ocf-text-teal"></i>
+                <p class="aui-ellipsis-1 ocf-text-teal">新建订单</p>
+            </card>
+        </div>
+        <div>
+            <card class="ocf-panel-shadow ocf-card aui-bg-white ocf-bg-trans" tapmode="ocf-bg-hover" onclick="viewOrder();">
+                <i class="aui-iconfont icon-library-books ocf-text-teal"></i>
+                <p class="aui-ellipsis-1 ocf-text-teal">查看订单</p>
+            </card>
+        </div>
+        <div>
+            <card class="ocf-panel-shadow ocf-card aui-bg-white ocf-bg-trans" >
+                <p class="aui-ellipsis-1 ocf-text-teal">更多功能正在制作中</p>
+            </card>
+        </div>
+    </section>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/ocf.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+
+    };
+    function newOrder(){
+        api.openWin({
+            name: 'new-order',
+            url: './new-order.html',
+            animation:{
+                type:"movein",
+                subType:"from_right",
+                duration:300
+            }
+        });
+    }
+    function viewOrder(){
+        api.openWin({
+            name: 'view-order',
+            url: './view-order.html',
+            animation:{
+                type:"movein",
+                subType:"from_right",
+                duration:300
+            }
+        });
+    }
+    function dataCenter(name){
+        $api.byId('dataCenter').innerHTML=name;
+    }
+</script>
+
+</html>

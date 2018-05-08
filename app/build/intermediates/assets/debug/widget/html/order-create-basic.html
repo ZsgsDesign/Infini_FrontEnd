@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>Hello APP</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../css/ocf.css" />
+    <link rel="stylesheet" type="text/css" href="../css/theme-success.css" />
+    <link rel="stylesheet" type="text/css" href="../css/animate.min.css" />
+    <style type="text/css">
+    section{
+        padding:1rem;
+    }
+    section > :not(:first-child){
+        padding-top:1rem;
+    }
+    section:not(:first-of-type){
+        padding-top:0;
+    }
+    card {
+        padding:0.75rem;
+        box-shadow: 0 1px 6px rgba(0,0,0,.117647), 0 1px 4px rgba(0,0,0,.117647);
+        display:block;
+    }
+    #product_container > items{
+        box-shadow:none;
+        display:flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom:0.75rem;
+        border-bottom:1px dashed #757575;
+        margin-bottom:0.75rem;
+    }
+    #product_container > items:last-of-type{
+        padding-bottom:0;
+        border-bottom:none;
+        margin-bottom:0;
+    }
+    #product_container > items > div:last-of-type{
+        text-align:right;
+        flex-shrink: 0;
+        flex-grow: 0;
+        margin-left:0.75rem;
+    }
+    #product_container{
+        border-top-right-radius: 0px;
+        border-top-left-radius: 0px;
+    }
+    #product_summary_container{
+        border-bottom-right-radius: 0px;
+        border-bottom-left-radius: 0px;
+    }
+    </style>
+</head>
+<body>
+    <hr class="ocf-app-line">
+    <div id="loading" class="ocf-fixed-full aui-bg-white"></div>
+    <section>
+        <h1><i class="aui-iconfont icon-account"></i> 客户</h1>
+        <div>
+            <card id="client_container">
+                <h2>张佑杰</h2>
+                <p>南京邮电大学</p>
+            </card>
+        </div>
+    </section>
+    <section>
+        <h1><i class="aui-iconfont icon-map-marker"></i> 地址</h1>
+        <div>
+            <card id="address_container">
+                <div id="address" contenteditable>江苏省 南京市 栖霞区 文苑路 9号</div>
+            </card>
+        </div>
+    </section>
+    <section>
+        <h1><i class="aui-iconfont icon-view-list"></i> 订单</h1>
+        <div>
+            <card id="product_summary_container">
+                <p>合计金额：￥150</p>
+                <p>数量：10 单位</p>
+            </card>
+            <card id="product_container">
+                <items id="order-P031-02" onclick="console.log(1);">
+                    <div>
+                        <h2>P031-02</h2>
+                        <p>dNTP Mix(10mM each)</p>
+                    </div>
+                    <div>
+                        <h3>&yen;15</h3>
+                        <p>5 Pcs</p>
+                    </div>
+                </items>
+                <items id="order-P031-03">
+                    <div>
+                        <h2>P031-03</h2>
+                        <p>dNTP Mix(11mM each)</p>
+                    </div>
+                    <div>
+                        <h3>&yen;15</h3>
+                        <p>5 Pcs</p>
+                    </div>
+                </items>
+            </card>
+        </div>
+    </section>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/aui-tab.js"></script>
+<script type="text/javascript" src="../script/ocf.js"></script>
+<script type="text/javascript">
+    apiready = function(){
+        init();
+    };
+
+    function init(){
+        loaded();
+    }
+
+    function closewin(){
+        api.closeWin();
+    }
+</script>
+</html>

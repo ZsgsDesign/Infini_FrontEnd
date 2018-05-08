@@ -1,0 +1,8 @@
+.ocf-more{
+    min-height: inherit!important;
+    padding:0!important;
+}
+.ocf-more .ocf-more-inner{
+    padding:0.5rem!important;
+    text-align:center;
+}

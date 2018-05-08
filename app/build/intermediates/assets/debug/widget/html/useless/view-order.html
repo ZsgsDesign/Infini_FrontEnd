@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>Hello APP</title>
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../css/ocf.css" />
+    <link rel="stylesheet" type="text/css" href="../css/animate.min.css" />
+    <style type="text/css">
+    </style>
+</head>
+<body>
+    <div id="wrap" class="aui-bg-success">
+        <header class="aui-bar aui-bar-nav" style="background:transparent;" id="header">
+            <a class="aui-pull-left aui-btn" onclick="closewin();">
+                <span class="aui-iconfont icon-arrow-left"></span>
+            </a>
+            <div class="aui-title">所有订单</div>
+        </header>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/ocf.js"></script>
+<script type="text/javascript">
+    apiready = function(){
+        var header = $api.byId('wrap');
+        $api.fixStatusBar(header);
+        api.openFrame({
+            name: 'view-order-content',
+            url: './view-order-content.html',
+            bounces: false,
+            overScrollMode: "scrolls",
+            rect: {
+                x: 0,
+                y: $api.offset($api.byId('wrap')).h,
+                w: 'auto',
+                h: api.winHeight - $api.offset($api.byId('wrap')).h
+            }
+        });
+    };
+    function closewin(){
+        api.closeWin();
+    }
+</script>
+</html>

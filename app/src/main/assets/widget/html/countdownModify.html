@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>Hello APP</title>
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../css/ocf.css" />
+    <link rel="stylesheet" type="text/css" href="../css/inf.css" />
+    <link rel="stylesheet" type="text/css" href="../css/theme-success.css" />
+    <link rel="stylesheet" type="text/css" href="../css/animate.min.css" />
+    <link rel="stylesheet" href="../css/quill.bubble.css" />
+    <style type="text/css">
+    </style>
+</head>
+<body>
+    <div id="wrap" class="aui-bg-pink">
+        <header class="aui-bar aui-bar-nav" style="background:transparent;" id="header">
+            <a class="aui-pull-left aui-btn" onclick="closewin();">
+                <span class="aui-iconfont icon-arrow-left"></span>
+            </a>
+            <div class="aui-title">编辑</div>
+            <a id="subBtn" class="aui-pull-right aui-btn" onclick="api.execScript({frameName: 'countdownModify-content',script: 'actionSubmit();'});">
+                <span class="aui-iconfont icon-check"></span>
+            </a>
+        </header>
+    </div>
+</body>
+<script type="text/javascript" src="../script/ocf.js"></script>
+<script type="text/javascript" src="../script/countdownModify.js"></script>
+</html>

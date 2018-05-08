@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <SurfaceView
+        android:id="@+id/mo_fnscanner_preview_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center" />
+
+    <com.uzmap.pkg.uzmodules.uzFNScanner.Zxing.view.ViewfinderView
+        android:id="@+id/mo_fnscanner_viewfinder_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/mo_fnscanner_heaer_bg" >
+
+        <ImageView
+            android:id="@+id/mo_fnscanner_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="30dp"
+            android:src="@drawable/mo_fnscanner_back_img" />
+
+        <ImageView
+            android:id="@+id/mo_fnscanner_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/mo_fnscanner_album" />
+
+        <ImageView
+            android:id="@+id/mo_fnscanner_light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="30dp"
+            android:src="@drawable/mo_fnscanner_light_light" />
+    </RelativeLayout>
+
+</FrameLayout>

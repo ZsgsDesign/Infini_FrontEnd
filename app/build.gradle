@@ -1,0 +1,27 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 26
+
+    defaultConfig {
+        applicationId "org.docharity.infini"
+        minSdkVersion 14
+        targetSdkVersion 26
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:appcompat-v7:26.1.0'
+    compile files('libs/apiEngine v1.1.0.jar')
+    compile files('libs/tbs_sdk_v1.5.1.1069_25451_obfs_20160510_174630.jar')
+    compile files('libs/uzMam.jar')
+    compile files('libs/uzPush.jar')
+}
